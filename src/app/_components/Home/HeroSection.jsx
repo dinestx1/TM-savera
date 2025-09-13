@@ -5,18 +5,19 @@ import { Button } from '@/components/ui/button';
 import Scene3D from '../Scene3D';
 import Image from 'next/image';
 import heroImage from "@/assets/hero-construction.jpg"
+import hero from "@/assets/hero.jpg"
 const HeroSection = () => {
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
      <div>
      <Image
-    src={heroImage}
+    src={hero}
     alt="Construction Hero"
     fill
     priority
     className="object-cover"
   />
-        <div className="absolute inset-0 bg-gray-900/20"></div>
+        <div className="absolute inset-0 bg-gray-900/60"></div>
 </div>
       
       {/* 3D Scene */}

@@ -592,7 +592,7 @@ export default function Home() {
             </div>
                 </section>
                 <section id="team" className="py-32  px-6 relative overflow-hidden">
-          <div className="max-w-7xl mx-auto">
+         <div className="max-w-7xl mx-auto">
 
             {/* Team Section */}
             <div className="mb-20">
@@ -639,7 +639,7 @@ export default function Home() {
                   },
                 ].map((member, index) => (
                   <div key={index} className="group relative">
-                    <div className="bg-card rounded-3xl overflow-hidden shadow-lg border border-border hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+                    <div className="bg-card rounded-3xl overflow-hidden  border border-border hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
                       {/* Team Member Photo */}
                       <div className="aspect-[3/4] relative overflow-hidden">
                         <img
@@ -667,7 +667,7 @@ export default function Home() {
             </div>
 
             {/* Company Achievements */}
-            <div className="bg-card rounded-3xl p-12 shadow-xl border border-border relative overflow-hidden">
+            <div className="bg-card rounded-3xl p-12 border border-border relative overflow-hidden">
               {/* Background Pattern */}
               <div className="absolute inset-0 opacity-5">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-primary rounded-full transform translate-x-32 -translate-y-32"></div>
