@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import Image from "next/image"
-import { Award, Users, Building, Target, ArrowRight, CheckCircle, Star, Trophy } from "lucide-react"
-
+import { Award, Users, Building, Target, ArrowRight, CheckCircle, Star, Trophy, Section } from "lucide-react"
+import office from "@/assets/office.jpeg"
 const teamMembers = [
   {
     name: "Sarah Mitchell",
@@ -137,91 +137,74 @@ export default function AboutPage() {
       </section>
 
       {/* Company Story */}
-      <section className="py-32 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32">
-            <div className="space-y-8">
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-16 h-1 bg-primary rounded-full"></div>
-                  <span className="text-primary font-semibold text-sm uppercase tracking-wider">Our Story</span>
-                </div>
-                <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-                  From Vision to <span className="text-primary">Reality</span>
-                </h2>
-                <p className="text-lg text-gray-600 leading-relaxed">
-                  Founded in 1999 with a vision to revolutionize the construction industry, TM SAVERA has grown from a small 
-                  local contractor to a leading construction company known for innovation, quality, and reliability.
-                </p>
-                <p className="text-lg text-gray-600 leading-relaxed">
-                  Our commitment to sustainable building practices, cutting-edge technology, and client satisfaction 
-                  has earned us recognition as an industry leader and trusted partner for projects of all scales.
-                </p>
-                <p className="text-lg text-gray-600 leading-relaxed">
-                  Today, we continue to push the boundaries of what's possible in construction, delivering exceptional 
-                  results that exceed expectations and build lasting relationships with our clients.
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-full">
-                  Our Projects
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-                <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-full">
-                  Contact Us
-                </Button>
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="bg-white rounded-3xl overflow-hidden shadow-2xl">
-                <img
-                  src="https://images.pexels.com/photos/834892/pexels-photo-834892.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop"
-                  alt="TM SAVERA Construction Company"
-                  className="w-full h-auto"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
-              </div>
-              
-              {/* Floating Stats */}
-              <div className="absolute -bottom-8 -left-8 bg-primary text-white rounded-2xl p-6 shadow-xl">
-                <div className="text-3xl font-bold">25+</div>
-                <div className="text-sm opacity-90">Years of Excellence</div>
-              </div>
-              <div className="absolute -top-8 -right-8 bg-white text-gray-900 rounded-2xl p-6 shadow-xl border">
-                <div className="text-3xl font-bold text-primary">500+</div>
-                <div className="text-sm text-gray-600">Projects Delivered</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Mission & Values */}
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Our <span className="text-primary">Values</span>
-            </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-16">
-              These core principles guide everything we do, from project planning to final delivery.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-32">
-            {companyValues.map((value, index) => (
-              <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-0 bg-white text-center">
-                <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
-                    <value.icon className="w-8 h-8 text-primary group-hover:text-white" />
+      <section className="max-w-7xl mx-auto mt-16">
+       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32">
+                <div className="space-y-8">
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-4">
+                      <div className="w-16 h-1 bg-primary rounded-full"></div>
+                      <span className="text-primary font-semibold text-sm uppercase tracking-wider">Our Story</span>
+                    </div>
+                    <h3 className="text-4xl md:text-5xl font-light text-foreground leading-tight">
+                      Building Excellence Since <span className="text-primary">1999</span>
+                    </h3>
+                    <p className="text-lg text-muted-foreground leading-relaxed">
+                      Founded with a vision to revolutionize the construction industry, Nabulé has grown from a small
+                      local contractor to a leading construction company known for innovation, quality, and reliability.
+                    </p>
+                    <p className="text-lg text-muted-foreground leading-relaxed">
+                      Our commitment to sustainable building practices, cutting-edge technology, and client satisfaction
+                      has earned us recognition as an industry leader and trusted partner for projects of all scales.
+                    </p>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{value.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{value.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
+  
+                  {/* Mission & Values */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="bg-card rounded-2xl p-6 shadow-lg border border-border">
+                      <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center mb-4">
+                        <div className="w-6 h-6 bg-primary-foreground rounded-sm"></div>
+                      </div>
+                      <h4 className="text-xl font-semibold text-foreground mb-3">Our Mission</h4>
+                      <p className="text-muted-foreground">
+                        To deliver exceptional construction solutions that exceed expectations while building lasting
+                        relationships.
+                      </p>
+                    </div>
+                    <div className="bg-card rounded-2xl p-6 shadow-lg border border-border">
+                      <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center mb-4">
+                        <div className="w-6 h-6 bg-primary-foreground rounded-sm"></div>
+                      </div>
+                      <h4 className="text-xl font-semibold text-foreground mb-3">Our Values</h4>
+                      <p className="text-muted-foreground">
+                        Integrity, innovation, and excellence guide every project we undertake and every relationship we
+                        build.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+  
+                {/* Company Image */}
+                <div className="relative">
+                  <div className="bg-card rounded-3xl overflow-hidden shadow-2xl">
+                    <Image
+                      src={office}
+                      alt="Nabulé Construction Company"
+                      className="w-full h-auto"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
+                  </div>
+                  {/* Floating Stats */}
+                  <div className="absolute -bottom-8 -left-8 bg-primary text-primary-foreground rounded-2xl p-6 shadow-xl">
+                    <div className="text-3xl font-uni font-bold">25+</div>
+                    <div className="text-sm">Years of Excellence</div>
+                  </div>
+                  <div className="absolute -top-8 -right-8 bg-card text-foreground rounded-2xl p-6 shadow-xl border border-border">
+                    <div className="text-3xl font-bold font-uni text-primary">500+</div>
+                    <div className="text-sm">Projects Delivered</div>
+                  </div>
+                </div>
+              </div>
+</section>
       {/* Team Section */}
       <section className="py-32 px-6 bg-gray-50">
         <div className="max-w-7xl mx-auto">

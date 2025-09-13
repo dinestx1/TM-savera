@@ -1,90 +1,136 @@
+"use client";
 
-
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import Scene3D from '../Scene3D';
 import Image from 'next/image';
-import heroImage from "@/assets/hero-construction.jpg"
 import hero from "@/assets/hero.jpg"
+import hero1 from "@/assets/hero1.jpg"
+import hero2 from "@/assets/hero-construction.jpg"
+// --- Carousel Slide Data ---
+// Add your images and text here
+const slides = [
+  {
+    image: hero, // Replace with your image path
+    alt: "Modern skyscraper construction",
+    title: "Building the",
+    highlight: "Future",
+    subtitle: "Premium construction services with cutting-edge technology and unmatched craftsmanship.",
+  },
+  {
+    image: hero1, // Replace with your image path
+    alt: "Interior of a newly constructed building",
+    title: "Designing",
+    highlight: "Excellence",
+    subtitle: "From blueprint to reality, we bring architectural visions to life with precision and passion.",
+  },
+  {
+    image: hero2, // Replace with your image path
+    alt: "Construction worker on a high-rise",
+    title: "Crafting",
+    highlight: "Landmarks",
+    subtitle: "Our commitment to quality ensures every project stands as a testament to durability and style.",
+  },
+];
+
 const HeroSection = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // --- Auto-scroll Logic ---
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === slides.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000); // Change slide every 5 seconds
+
+    return () => clearInterval(interval); // Cleanup on component unmount
+  }, []);
+
+  const goToSlide = (slideIndex) => {
+    setCurrentIndex(slideIndex);
+  };
+
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-     <div>
-     <Image
-    src={hero}
-    alt="Construction Hero"
-    fill
-    priority
-    className="object-cover"
-  />
-        <div className="absolute inset-0 bg-gray-900/60"></div>
-</div>
-      
-      {/* 3D Scene */}
-      {/* <Scene3D className="absolute inset-0 z-10 opacity-60" /> */}
-      
-      {/* Content */}
-      <div className="relative z-20 container mx-auto px-6 text-center">
+    <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
+      {/* --- Background Image Carousel --- */}
+      <AnimatePresence initial={false} mode="sync">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="max-w-4xl mx-auto"
+          key={currentIndex}
+          className="absolute inset-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.5, ease: 'easeInOut' }}
         >
-          <motion.h1 
-            className="text-6xl md:text-8xl font-bold text-white mb-6"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.4 }}
-          >
-            Building the
-            <span className="block bg-primary bg-clip-text text-transparent animate-pulse-yellow">
-              Future
-            </span>
-          </motion.h1>
-          
-          <motion.p 
-            className="text-xl md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            Premium construction services with cutting-edge technology and unmatched craftsmanship
-          </motion.p>
-          
-          <motion.div 
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            <Button 
-              size="lg" 
-              className="bg-primary hover:bg-primary-glow text-primary-foreground px-8 py-4 text-lg font-semibold shadow-yellow hover:shadow-elegant transition-all duration-300"
-            >
-              Start Your Project
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-construction-light text-construction-light hover:bg-construction-light hover:text-construction-dark px-8 py-4 text-lg font-semibold"
-            >
-              View Portfolio
-            </Button>
-          </motion.div>
+          <Image
+            src={slides[currentIndex].image}
+            alt={slides[currentIndex].alt}
+            fill
+            priority
+            className="object-cover"
+          />
         </motion.div>
-      </div>
+      </AnimatePresence>
+
+      {/* --- Black Gradient Overlay from Bottom --- */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
       
-      {/* Scroll Indicator */}
-      <motion.div 
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      >
-        <div className="w-6 h-10 border-2 border-primary rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-primary rounded-full mt-2 animate-pulse"></div>
-        </div>
-      </motion.div>
+      {/* --- Content --- */}
+      <div className="relative z-10 container mx-auto px-6 text-center">
+        {/* Animate content changes with a key */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-4xl mx-auto"
+          >
+            <h1 className="text-6xl md:text-8xl font-bold text-white mb-6">
+              {slides[currentIndex].title}
+              <span className="block bg-primary bg-clip-text text-transparent">
+                {slides[currentIndex].highlight}
+              </span>
+            </h1>
+            
+            <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto">
+              {slides[currentIndex].subtitle}
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button 
+                size="lg" 
+                className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 text-lg font-semibold shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all duration-300"
+              >
+                Start Your Project
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-white/50 text-foreground hover:bg-white hover:text-black px-8 py-4 text-lg font-semibold backdrop-blur-sm"
+              >
+                View Portfolio
+              </Button>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* --- Scroll Indicators --- */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex gap-x-3">
+        {slides.map((_, slideIndex) => (
+          <button
+            key={slideIndex}
+            onClick={() => goToSlide(slideIndex)}
+            className={`h-2 rounded-full transition-all duration-300 ${
+              currentIndex === slideIndex ? 'w-8 bg-white' : 'w-2 bg-white/50'
+            }`}
+            aria-label={`Go to slide ${slideIndex + 1}`}
+          />
+        ))}
+      </div>
     </section>
   );
 };

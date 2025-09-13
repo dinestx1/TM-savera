@@ -1,5 +1,6 @@
 import React from 'react'
 import { Building } from 'lucide-react'
+import Link from 'next/link'
 function Footer() {
   return (
     <div>     <footer className="bg-black text-white py-16">
@@ -49,8 +50,9 @@ function Footer() {
             </div>
           </div>
 
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
-  <p>&copy; {new Date().getFullYear()} TM SAVERA. All rights reserved. Transforming skylines, building futures.</p>
+        <div className="border-t border-gray-800 mt-12 flex pt-8 justify-between text-gray-500">
+  <p>&copy; {new Date().getFullYear()} TM SAVERA. All rights reserved.</p>
+  <p>Developed by <Link href="https://www.dinestx.com" className='text-gray-300'>Dinestx</Link> </p>
 </div>
         </div>
       </footer></div>
