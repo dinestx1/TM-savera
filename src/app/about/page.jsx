@@ -194,12 +194,12 @@ export default function AboutPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
                   </div>
                   {/* Floating Stats */}
-                  <div className="absolute -bottom-8 -left-8 bg-primary text-primary-foreground rounded-2xl p-6 shadow-xl">
-                    <div className="text-3xl font-uni font-bold">25+</div>
+                  <div className="absolute -bottom-8 -left-2 bg-primary text-primary-foreground rounded-2xl p-4 shadow-xl">
+                    <div className="text-2xl font-uni font-bold">25+</div>
                     <div className="text-sm">Years of Excellence</div>
                   </div>
-                  <div className="absolute -top-8 -right-8 bg-card text-foreground rounded-2xl p-6 shadow-xl border border-border">
-                    <div className="text-3xl font-bold font-uni text-primary">500+</div>
+                  <div className="absolute -top-8 -right-2 bg-card text-foreground rounded-2xl p-4 shadow-xl border border-border">
+                    <div className="text-2xl font-bold font-uni text-primary">500+</div>
                     <div className="text-sm">Projects Delivered</div>
                   </div>
                 </div>
