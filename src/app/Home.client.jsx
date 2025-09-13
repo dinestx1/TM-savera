@@ -246,7 +246,7 @@ export default function Home() {
                   className="bg-card rounded-2xl p-6 border border-border animate-build-up"
                   style={{ animationDelay: `${index * 0.1 + 0.6}s` }}
                 >
-                  <div className="text-3xl md:text-4xl font-extrabold font-unil text-primary mb-2">{stat.number}</div>
+                  <div className="text-3xl md:text-4xl font-extrabold font-uni text-primary mb-2">{stat.number}</div>
                   <div className="text-sm text-muted-foreground">{stat.label}</div>
                 </div>
               ))}
@@ -398,7 +398,7 @@ export default function Home() {
 
                           {/* Year badge */}
                           <div className="absolute top-6 right-6">
-                            <span className="bg-card/90 backdrop-blur-sm text-foreground font-unil px-4 py-2 rounded-full text-sm font-extrabold">
+                            <span className="bg-card/90 backdrop-blur-sm text-foreground font-uni px-4 py-2 rounded-full text-sm font-extrabold">
                               {project.year}
                             </span>
                           </div>
@@ -580,11 +580,11 @@ export default function Home() {
                 </div>
                 {/* Floating Stats */}
                 <div className="absolute -bottom-8 -left-8 bg-primary text-primary-foreground rounded-2xl p-6 shadow-xl">
-                  <div className="text-3xl font-unil font-bold">25+</div>
+                  <div className="text-3xl font-uni font-bold">25+</div>
                   <div className="text-sm">Years of Excellence</div>
                 </div>
                 <div className="absolute -top-8 -right-8 bg-card text-foreground rounded-2xl p-6 shadow-xl border border-border">
-                  <div className="text-3xl font-bold font-unil text-primary">500+</div>
+                  <div className="text-3xl font-bold font-uni text-primary">500+</div>
                   <div className="text-sm">Projects Delivered</div>
                 </div>
               </div>
