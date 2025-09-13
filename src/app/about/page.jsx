@@ -137,7 +137,7 @@ export default function AboutPage() {
       </section>
 
       {/* Company Story */}
-      <section className="max-w-7xl mx-auto mt-16">
+      <section className="max-w-7xl mx-auto mt-16 p-4">
        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32">
                 <div className="space-y-8">
                   <div className="space-y-6">
