@@ -13,6 +13,8 @@ import complex from "@/assets/complex.png"
 import headquarters from "@/assets/headquarters.png"
 import vehicle from "@/assets/vehicle.png"
 import office from "@/assets/office.jpeg"
+import Link from "next/link"
+
 const ArrowRightIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -79,6 +81,7 @@ const IndustrialIcon = ({ className }) => (
 
   const projects =[
                 {
+                  id:0,
                   title: "Modern Corporate Headquarters",
                   category: "Commercial",
                   image:headquarters,
@@ -89,6 +92,7 @@ const IndustrialIcon = ({ className }) => (
                   location: "Downtown District",
                 },
                 {
+                   id:1,
                   title: "Luxury Residential Complex",
                   category: "Residential",
                   image:complex,
@@ -449,17 +453,14 @@ export default function Home() {
                       </div>
 
                       {/* Action Buttons */}
-                      <div className="flex flex-col sm:flex-row gap-4">
+                         <Link href={`/portfolio/${project.id}`}>
+                  
                         <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
                           View Project
                         </Button>
-                        <Button
-                          variant="outline"
-                          className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-3 rounded-full font-semibold transition-all duration-300 bg-transparent"
-                        >
-                          Case Study
-                        </Button>
-                      </div>
+                     
+                
+                         </Link>
                     </div>
                   </div>
                 </div>
