@@ -3,7 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import RootComponent from "./RootComponents";
-
+import Providers from "./Providers";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
@@ -65,7 +65,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" >
       <body className="antialiased bg-white text-gray-700 dark:bg-gray-900 dark:text-white scroll-smooth font-uni ">
-  
+  <Providers>
           <RootComponent>{children}</RootComponent>
           <Script
             src="https://www.googletagmanager.com/gtag/js?id=G-ZY4WYE56D6"
@@ -79,7 +79,7 @@ export default function RootLayout({ children }) {
               gtag('config', 'G-ZY4WYE56D6');
             `}
           </Script>
-  
+  </Providers>
       </body>
     </html>
   );

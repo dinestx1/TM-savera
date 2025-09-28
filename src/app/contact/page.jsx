@@ -1,13 +1,16 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { MapPin, Phone, Mail, Clock, Send, MessageSquare, Building, User } from "lucide-react"
+import { getContact } from "@/store/slices/dataSlice"
 
 const contactInfo = [
   {
@@ -61,10 +64,17 @@ export default function ContactPage() {
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const {contact}=useSelector((state)=>state.data)
+  const dispatch=useDispatch()
 
   const handleInputChange = (field, value) => {
     setFormData({ ...formData, [field]: value });
   };
+
+  useEffect(()=>{
+     dispatch(getContact())
+ 
+  },[dispatch])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -142,7 +152,7 @@ export default function ContactPage() {
 
           {/* Quick Contact Options */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="bg-primary text-white border-0">
+            <Card className="bg-primary py-6 text-white border-0">
               <CardHeader className="text-center pb-4">
                 <Phone className="w-12 h-12 mx-auto mb-4 opacity-90" />
                 <CardTitle className="text-xl">Call Now</CardTitle>
@@ -150,12 +160,12 @@ export default function ContactPage() {
               <CardContent className="text-center">
                 <p className="mb-6 opacity-90">Speak directly with our project managers</p>
                 <Button className="bg-white text-primary hover:bg-gray-100 w-full rounded-full">
-                  +1 (555) 123-4567
+                  {contact?.phone}
                 </Button>
               </CardContent>
             </Card>
 
-            <Card className="border-primary border-2 hover:bg-primary hover:text-white group transition-all duration-300">
+            <Card className="border-primary border-2 py-6 hover:bg-primary hover:text-white group transition-all duration-300">
               <CardHeader className="text-center pb-4">
                 <MessageSquare className="w-12 h-12 text-primary group-hover:text-white mx-auto mb-4" />
                 <CardTitle className="text-xl text-gray-900 group-hover:text-white">Live Chat</CardTitle>
@@ -168,7 +178,7 @@ export default function ContactPage() {
               </CardContent>
             </Card>
 
-            <Card className="bg-gray-50 border-0 hover:shadow-xl transition-all duration-300">
+            <Card className="bg-gray-50 border-0 py-6 hover:shadow-xl transition-all duration-300">
               <CardHeader className="text-center pb-4">
                 <Mail className="w-12 h-12 text-primary mx-auto mb-4" />
                 <CardTitle className="text-xl text-gray-900">Email Us</CardTitle>
