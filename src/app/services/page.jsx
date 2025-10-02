@@ -208,7 +208,7 @@ export default function ServicesPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {additionalServices.map((service, index) => (
-              <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-0 bg-white">
+              <Card key={index} className="group hover:shadow-xl py-4  transition-all duration-300 border-0 bg-white">
                 <CardHeader className="pb-4">
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
                     <div className="w-6 h-6 bg-primary rounded-sm group-hover:bg-white"></div>

@@ -1,10 +1,13 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, use } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import { useSelector,useDispatch } from "react-redux"
 import { Search, Filter, Grid, List } from "lucide-react"
+
+import { getProjects } from "@/store/slices/dataSlice"
 
 const projectsData = [
   {
@@ -118,6 +121,11 @@ const years = ["All", "2024", "2023", "2022"]
 const statuses = ["All", "Completed", "In Progress"]
 
 export default function ProjectsPage() {
+ 
+  
+  const dispatch = useDispatch()
+  const {projects,loading} = useSelector((state) => state.data)
+
   const [filteredProjects, setFilteredProjects] = useState(projectsData)
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("All")
@@ -125,9 +133,14 @@ export default function ProjectsPage() {
   const [selectedStatus, setSelectedStatus] = useState("All")
   const [viewMode, setViewMode] = useState("grid")
   const [showFilters, setShowFilters] = useState(false)
+  useEffect(() => {
+
+    dispatch(getProjects());
+
+  }, [dispatch])
 
   useEffect(() => {
-    let filtered = projectsData
+    let filtered = projects 
 
     // Filter by search term
     if (searchTerm) {
@@ -155,7 +168,7 @@ export default function ProjectsPage() {
     }
 
     setFilteredProjects(filtered)
-  }, [searchTerm, selectedCategory, selectedYear, selectedStatus])
+  }, [searchTerm, selectedCategory, selectedYear, selectedStatus,projects])
 
   const clearFilters = () => {
     setSearchTerm("")
@@ -164,25 +177,19 @@ export default function ProjectsPage() {
     setSelectedStatus("All")
   }
 
+
+
+
   return (
-    <div className="min-h-screen bg-background">
+   <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="py-20 px-6 bg-gradient-to-br from-background to-muted/20 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary rounded-full animate-float"></div>
-          <div
-            className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-primary/60 rounded-full animate-float"
-            style={{ animationDelay: "3s" }}
-          ></div>
-        </div>
-
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <h1 className="text-5xl md:text-7xl font-light text-foreground mb-6">
             Our <span className="text-primary">Projects</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Explore our comprehensive portfolio of construction projects spanning commercial, residential, industrial,
-            and specialized developments.
+            Explore our portfolio of construction projects across residential, commercial, and industrial categories.
           </p>
         </div>
       </section>
@@ -202,7 +209,7 @@ export default function ProjectsPage() {
               />
             </div>
 
-            {/* Filter Toggle and View Mode */}
+            {/* Filter & View */}
             <div className="flex items-center gap-4">
               <Button
                 variant="outline"
@@ -234,13 +241,12 @@ export default function ProjectsPage() {
             </div>
           </div>
 
-          {/* Filter Options */}
           {showFilters && (
             <div className="mt-6 p-6 bg-background rounded-xl border border-border">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Category Filter */}
+                {/* Category */}
                 <div>
-                  <label className="block text-sm font-semibold text-foreground mb-3">Category</label>
+                  <label className="block text-sm font-semibold mb-3">Category</label>
                   <div className="flex flex-wrap gap-2">
                     {categories.map((category) => (
                       <Button
@@ -248,7 +254,6 @@ export default function ProjectsPage() {
                         variant={selectedCategory === category ? "default" : "outline"}
                         size="sm"
                         onClick={() => setSelectedCategory(category)}
-                        className="text-xs"
                       >
                         {category}
                       </Button>
@@ -256,27 +261,9 @@ export default function ProjectsPage() {
                   </div>
                 </div>
 
-                {/* Year Filter */}
+                {/* Status */}
                 <div>
-                  <label className="block text-sm font-semibold text-foreground mb-3">Year</label>
-                  <div className="flex flex-wrap gap-2">
-                    {years.map((year) => (
-                      <Button
-                        key={year}
-                        variant={selectedYear === year ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => setSelectedYear(year)}
-                        className="text-xs"
-                      >
-                        {year}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Status Filter */}
-                <div>
-                  <label className="block text-sm font-semibold text-foreground mb-3">Status</label>
+                  <label className="block text-sm font-semibold mb-3">Status</label>
                   <div className="flex flex-wrap gap-2">
                     {statuses.map((status) => (
                       <Button
@@ -284,7 +271,6 @@ export default function ProjectsPage() {
                         variant={selectedStatus === status ? "default" : "outline"}
                         size="sm"
                         onClick={() => setSelectedStatus(status)}
-                        className="text-xs"
                       >
                         {status}
                       </Button>
@@ -295,7 +281,7 @@ export default function ProjectsPage() {
 
               <div className="mt-6 flex justify-between items-center">
                 <p className="text-sm text-muted-foreground">
-                  Showing {filteredProjects.length} of {projectsData.length} projects
+                  Showing {filteredProjects?.length} of {projects?.length || 0} projects
                 </p>
                 <Button variant="outline" size="sm" onClick={clearFilters}>
                   Clear All Filters
@@ -306,44 +292,36 @@ export default function ProjectsPage() {
         </div>
       </section>
 
-      {/* Projects Grid/List */}
+      {/* Projects */}
       <section className="py-16 px-6">
         <div className="max-w-7xl mx-auto">
-          {filteredProjects.length === 0 ? (
+          {loading ? (
+            <p className="text-center text-muted-foreground">Loading projects...</p>
+          ) : filteredProjects?.length === 0 ? (
             <div className="text-center py-20">
-              <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
-                <Search className="w-12 h-12 text-muted-foreground" />
-              </div>
-              <h3 className="text-2xl font-semibold text-foreground mb-4">No projects found</h3>
-              <p className="text-muted-foreground mb-6">Try adjusting your search criteria or filters</p>
+              <h3 className="text-2xl font-semibold mb-4">No projects found</h3>
               <Button onClick={clearFilters}>Clear Filters</Button>
             </div>
           ) : (
             <div className={viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" : "space-y-8"}>
-              {filteredProjects.map((project) => (
+              {filteredProjects?.map((project) => (
                 <div
                   key={project.id}
-                  className={
-                    viewMode === "grid"
-                      ? "group"
-                      : "group flex flex-col lg:flex-row gap-8 bg-card rounded-2xl p-6 border border-border hover:shadow-lg transition-all duration-300"
-                  }
+                  className="group bg-card rounded-2xl p-6 border border-border hover:shadow-lg transition-all duration-300"
                 >
-                  <Link href={`/portfolio/${project.id}`} className={viewMode === "grid" ? "block" : "flex-shrink-0"}>
-                    <div
-                      className={`relative overflow-hidden rounded-xl ${viewMode === "grid" ? "aspect-[4/3] mb-6" : "w-full lg:w-80 aspect-[4/3]"}`}
-                    >
+                  <Link href={`/portfolio/${project.id}`}>
+                    <div className="relative overflow-hidden rounded-xl aspect-[4/3] mb-6">
                       <img
-                        src={`/modern-abstract-sculpture.png?key=t6606&height=300&width=400&query=modern ${project.category.toLowerCase()} building construction project`}
+                        src={project.projectImage?.[0] || "/placeholder.png"}
                         alt={project.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
 
-                      {/* Status Badge */}
+                      {/* Status */}
                       <div className="absolute top-4 left-4">
                         <span
                           className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                            project.status === "Completed"
+                            project.status === "COMPLETED"
                               ? "bg-green-500/20 text-green-700 border border-green-500/30"
                               : "bg-yellow-500/20 text-yellow-700 border border-yellow-500/30"
                           }`}
@@ -351,64 +329,36 @@ export default function ProjectsPage() {
                           {project.status}
                         </span>
                       </div>
-
-                      {/* Category Badge */}
-                      <div className="absolute top-4 right-4">
-                        <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-semibold">
-                          {project.category}
-                        </span>
-                      </div>
-
-                      {/* Hover Overlay */}
-                      <div className="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <Button className="bg-card text-foreground hover:bg-card/90 rounded-full px-6 py-2 font-semibold">
-                          View Details
-                        </Button>
-                      </div>
                     </div>
                   </Link>
 
-                  <div className={viewMode === "grid" ? "" : "flex-1"}>
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-8 h-1 bg-primary rounded-full"></div>
-                      <span className="text-sm text-muted-foreground font-medium">{project.location}</span>
+                  <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
+                  <p className="text-muted-foreground mb-4">{project.aboutProject}</p>
+
+                  {/* Project Info */}
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <span className="text-xs text-muted-foreground uppercase">Budget</span>
+                      <p className="font-semibold">₹{project.budget?.toLocaleString()}</p>
                     </div>
-
-                    <Link href={`/portfolio/${project.id}`}>
-                      <h3 className="text-xl lg:text-2xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
-                        {project.title}
-                      </h3>
-                    </Link>
-
-                    <p className="text-muted-foreground mb-4 leading-relaxed">{project.description}</p>
-
-                    {/* Project Stats */}
-                    <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div>
-                        <span className="text-xs text-muted-foreground uppercase tracking-wider">Year</span>
-                        <p className="font-semibold text-foreground">{project.year}</p>
-                      </div>
-                      <div>
-                        <span className="text-xs text-muted-foreground uppercase tracking-wider">Budget</span>
-                        <p className="font-semibold text-foreground">{project.budget}</p>
-                      </div>
+                    <div>
+                      <span className="text-xs text-muted-foreground uppercase">Manager</span>
+                      <p className="font-semibold">{project.manager}</p>
                     </div>
-
-                    {/* Key Features */}
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {project.details.slice(0, 3).map((detail, index) => (
-                        <span key={index} className="bg-muted text-muted-foreground px-3 py-1 rounded-full text-xs">
-                          {detail}
-                        </span>
-                      ))}
-                    </div>
-
-                    <Link href={`/portfolio/${project.id}`}>
-                      <Button className="w-full lg:w-auto bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2 rounded-full font-semibold">
-                        View Project
-                      </Button>
-                    </Link>
                   </div>
+
+                  {/* Features */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.keyFeatures?.slice(0, 3).map((feature, i) => (
+                      <span key={i} className="bg-muted text-muted-foreground px-3 py-1 rounded-full text-xs">
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+
+                  <Link href={`/portfolio/${project.id}`}>
+                    <Button className="w-full">View Project</Button>
+                  </Link>
                 </div>
               ))}
             </div>

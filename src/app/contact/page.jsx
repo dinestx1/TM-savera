@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState,useMemo } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -11,37 +11,10 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { MapPin, Phone, Mail, Clock, Send, MessageSquare, Building, User } from "lucide-react"
 import { getContact } from "@/store/slices/dataSlice"
+import Link from "next/link"
+import { ContactPageSkeleton } from "../_components/loaders/contactPageLoading"
 
-const contactInfo = [
-  {
-    icon: Phone,
-    title: "Phone",
-    primary: "+1 (555) 123-4567",
-    secondary: "+1 (555) 987-6543",
-    description: "Call us during business hours"
-  },
-  {
-    icon: Mail,
-    title: "Email",
-    primary: "info@tmsavera.com",
-    secondary: "projects@tmsavera.com",
-    description: "We respond within 24 hours"
-  },
-  {
-    icon: MapPin,
-    title: "Office Location",
-    primary: "123 Construction Avenue",
-    secondary: "Business District, NY 10001",
-    description: "Visit us for consultations"
-  },
-  {
-    icon: Clock,
-    title: "Business Hours",
-    primary: "Monday - Friday: 8:00 AM - 6:00 PM",
-    secondary: "Saturday: 9:00 AM - 4:00 PM",
-    description: "Emergency services available 24/7"
-  }
-];
+
 
 const services = [
   "Residential Construction",
@@ -64,7 +37,7 @@ export default function ContactPage() {
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const {contact}=useSelector((state)=>state.data)
+  const {contact,loading}=useSelector((state)=>state.data)
   const dispatch=useDispatch()
 
   const handleInputChange = (field, value) => {
@@ -96,6 +69,80 @@ export default function ContactPage() {
       });
     }, 2000);
   };
+
+
+  const contactInfo = useMemo(() => {
+    // If contact data hasn't loaded yet, return an empty array to avoid errors
+    if (!contact) {
+      return [];
+    }
+
+    // Build the array using data from the 'contact' object
+    return [
+      {
+        icon: Phone,
+        title: "Phone",
+        primary: contact.phone || "Not available",
+        secondary: "", // Your data has only one phone number
+        description: "Call us during business hours"
+      },
+      {
+        icon: Mail,
+        title: "Email",
+        primary: contact.email || "Not available",
+        secondary: "", // Your data has only one email
+        description: "We respond within 24 hours"
+      },
+      {
+        icon: MapPin,
+        title: "Office Location",
+        primary: contact.address || "Not available",
+        secondary: "", // Your address is a single string
+        description: "Visit us for consultations"
+      },
+      {
+        icon: Clock,
+        title: "Business Hours",
+        // Combine start and end times into a single string
+        primary: `Mon - Fri: ${contact.openOfficeTime?.start} - ${contact.openOfficeTime?.end}`,
+        secondary: "", // Your data doesn't specify weekend hours
+        description: "Emergency services available 24/7"
+      }
+    ];
+  }, [contact]);
+
+
+  if (loading || !contact) {
+    return (
+      <div className="min-h-screen bg-white">
+        {/* You can keep your static Hero section if you want it to show instantly */}
+        <section className="relative py-32 px-6 bg-gradient-to-br from-bgdark via-gray-800 to-bgdark overflow-hidden">
+             <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary rounded-full animate-float"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-primary/60 rounded-full animate-float" style={{ animationDelay: "2s" }}></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto text-center relative z-10">
+          <div className="mb-6">
+            <span className="bg-primary text-white px-6 py-2 rounded-full text-sm font-semibold uppercase tracking-wider">
+              Get In Touch
+            </span>
+          </div>
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-8">
+            Let's Build <span className="text-primary">Together</span>
+          </h1>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Ready to start your next construction project? Get in touch with our expert team for a 
+            consultation and free quote. We're here to bring your vision to life.
+          </p>
+        </div>
+        </section>
+        
+
+        <ContactPageSkeleton /> 
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -380,48 +427,17 @@ export default function ContactPage() {
                   <div className="text-center text-white">
                     <MapPin className="w-12 h-12 mx-auto mb-4" />
                     <h4 className="text-xl font-bold mb-2">TM SAVERA Office</h4>
-                    <p>123 Construction Avenue</p>
-                    <p>Business District, NY 10001</p>
-                    <Button className="mt-4 bg-white text-primary hover:bg-gray-100 rounded-full">
+                    <p>{contact?.address}</p>
+                      <Link href={contact?.location}>
+                    <Button  className="mt-4 bg-white text-primary hover:bg-gray-100 rounded-full">
                       Get Directions
                     </Button>
+                    </Link>
                   </div>
                 </div>
               </div>
 
-              {/* Office Details */}
-              <Card className="border-0 bg-white shadow-lg">
-                <CardContent className="p-8">
-                  <h4 className="text-xl font-bold text-gray-900 mb-6">Office Details</h4>
-                  <div className="space-y-4">
-                    <div className="flex items-start space-x-4">
-                      <MapPin className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
-                      <div>
-                        <p className="font-semibold text-gray-900">Address</p>
-                        <p className="text-gray-600">123 Construction Avenue<br />Business District, NY 10001</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start space-x-4">
-                      <Clock className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
-                      <div>
-                        <p className="font-semibold text-gray-900">Office Hours</p>
-                        <p className="text-gray-600">Monday - Friday: 8:00 AM - 6:00 PM<br />Saturday: 9:00 AM - 4:00 PM</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start space-x-4">
-                      <Building className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
-                      <div>
-                        <p className="font-semibold text-gray-900">Amenities</p>
-                        <p className="text-gray-600">Free parking • Conference rooms • Project showcase • Coffee & refreshments</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <Button className="w-full mt-6 bg-primary hover:bg-primary/90 text-white rounded-full">
-                    Schedule Office Visit
-                  </Button>
-                </CardContent>
-              </Card>
+        
             </div>
           </div>
         </div>

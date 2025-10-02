@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 // const API_URL = "https://api.ixbooking.in/api/v0.1/user/";
-const API_URL = "http://localhost:3000/";
+const API_URL = "http://localhost:8000/";
 
 
 
@@ -19,9 +19,52 @@ const API_URL = "http://localhost:3000/";
       return rejectWithValue(err.response?.data || "Something went wrong");
     }
   });
-    export const getContact = createAsyncThunk("auth/getContact", async (_, { rejectWithValue }) => {
+
+    export const getCompany = createAsyncThunk("auth/getCompany", async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}company/get-contact`, {  withCredentials: true });
+      const response = await axios.get(`${API_URL}company/get-company`, {  headers: {
+            'x-company-url': 'tmsavera.com' 
+          }, withCredentials: true });
+      return response.data ;
+
+    } catch (err) {
+      return rejectWithValue(err.response?.data || "Something went wrong");
+    }
+  });
+    
+  
+  export const getContact = createAsyncThunk("auth/getContact", async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${API_URL}company/get-contact`, { headers: {
+            'x-company-url': 'tmsavera.com' 
+          }, withCredentials: true });
+      return response.data ;
+
+    } catch (err) {
+      return rejectWithValue(err.response?.data || "Something went wrong");
+    }
+  });
+
+
+    export const getProjects = createAsyncThunk("auth/getProjects", async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${API_URL}company/get-project`, { headers: {
+            'x-company-url': 'tmsavera.com' 
+          }, withCredentials: true });
+      return response.data ;
+
+    } catch (err) {
+      return rejectWithValue(err.response?.data || "Something went wrong");
+    }
+  });
+
+
+    export const getProjectsId = createAsyncThunk("auth/getProjectsId", async ({projectId}, { rejectWithValue }) => {
+    try {
+      console.log("projectId",projectId)
+      const response = await axios.get(`${API_URL}company/get-project/${projectId}`, { headers: {
+            'x-company-url': 'tmsavera.com' 
+          }, withCredentials: true });
       return response.data ;
 
     } catch (err) {
@@ -175,8 +218,11 @@ const API_URL = "http://localhost:3000/";
 //   );
 
   const initialState = {
-    user: null,
+    company: null,
+    id: null,
     contact:null,
+    projects:[],
+    project:null,
     isAuthenticated: false,
     loading:false,
     message: null,
@@ -242,10 +288,66 @@ const API_URL = "http://localhost:3000/";
         })
 
 
-            .addCase(getContact.pending, (state) => {
+        .addCase(getCompany.pending, (state) => {
           state.loading= true;
           state.errordata = null;
         })
+        
+        .addCase(getCompany.fulfilled, (state, action) => {
+          state.loading = false;
+          state.company = action.payload;
+          state.id=action.payload.id
+        })
+        .addCase(getCompany.rejected, (state, action) => {
+          state.loading = false;
+          state.company = null;
+          state.errordata = action.payload;
+        })
+
+
+
+
+        .addCase(getProjects.pending, (state) => {
+          state.loading= true;
+          state.errordata = null;
+        })
+        
+        .addCase(getProjects.fulfilled, (state, action) => {
+          state.loading = false;
+          state.projects = action.payload;
+        
+        })
+        .addCase(getProjects.rejected, (state, action) => {
+          state.loading = false;
+          state.projects= null;
+          state.errordata = action.payload;
+        })
+
+
+        .addCase(getProjectsId.pending, (state) => {
+          state.loading= true;
+          state.errordata = null;
+        })
+        
+        .addCase(getProjectsId.fulfilled, (state, action) => {
+          state.loading = false;
+          state.project = action.payload;
+        
+        })
+        .addCase(getProjectsId.rejected, (state, action) => {
+          state.loading = false;
+          state.project= null;
+          state.errordata = action.payload;
+        })
+
+
+
+
+        .addCase(getContact.pending, (state) => {
+          state.loading= true;
+          state.errordata = null;
+        })
+
         .addCase(getContact.fulfilled, (state, action) => {
           state.loading = false;
           state.contact = action.payload;

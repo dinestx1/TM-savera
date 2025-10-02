@@ -11,6 +11,8 @@ import building1 from "@/assets/building1.png"
 import building2 from "@/assets/building2.png"
 import complex from "@/assets/complex.png"
 import headquarters from "@/assets/headquarters.png"
+import { useDispatch,useSelector } from "react-redux"
+import { getCompany } from "@/store/slices/dataSlice"
 import vehicle from "@/assets/vehicle.png"
 import office from "@/assets/office.jpeg"
 import Link from "next/link"
@@ -79,78 +81,91 @@ const IndustrialIcon = ({ className }) => (
     },
   ];
 
-  const projects =[
-                {
-                  id:0,
-                  title: "Modern Corporate Headquarters",
-                  category: "Commercial",
-                  image:headquarters,
-                  description:
-                    "A 15-story glass and steel masterpiece featuring sustainable design elements, smart building technology, and flexible workspace solutions for 2,000+ employees.",
-                  details: ["15 floors", "200,000 sq ft", "LEED Platinum", "Smart Building Tech"],
-                  year: "2024",
-                  location: "Downtown District",
-                },
-                {
-                   id:1,
-                  title: "Luxury Residential Complex",
-                  category: "Residential",
-                  image:complex,
-                  description:
-                    "An exclusive 50-unit residential development combining contemporary architecture with premium amenities, rooftop gardens, and panoramic city views.",
-                  details: ["50 luxury units", "Rooftop amenities", "Underground parking", "24/7 concierge"],
-                  year: "2023",
-                  location: "Riverside Heights",
-                },
-                // {
-                //   title: "Advanced Manufacturing Facility",
-                //   category: "Industrial",
-                //   description:
-                //     "State-of-the-art production facility with automated systems, clean room environments, and sustainable energy solutions for next-generation manufacturing.",
-                //   details: ["500,000 sq ft", "Automated systems", "Clean rooms", "Solar powered"],
-                //   year: "2024",
-                //   location: "Industrial Park",
-                // },
-                // {
-                //   title: "Mixed-Use Urban Development",
-                //   category: "Commercial",
-                //   description:
-                //     "A transformative urban project combining retail, office, and residential spaces with public plazas, green corridors, and community facilities.",
-                //   details: ["Mixed-use design", "Public spaces", "Green corridors", "Community hub"],
-                //   year: "2023",
-                //   location: "City Center",
-                // },
-              ]
+  // const projects =[
+  //               {
+  //                 id:0,
+  //                 title: "Modern Corporate Headquarters",
+  //                 category: "Commercial",
+  //                 image:headquarters,
+  //                 description:
+  //                   "A 15-story glass and steel masterpiece featuring sustainable design elements, smart building technology, and flexible workspace solutions for 2,000+ employees.",
+  //                 details: ["15 floors", "200,000 sq ft", "LEED Platinum", "Smart Building Tech"],
+  //                 year: "2024",
+  //                 location: "Downtown District",
+  //               },
+  //               {
+  //                  id:1,
+  //                 title: "Luxury Residential Complex",
+  //                 category: "Residential",
+  //                 image:complex,
+  //                 description:
+  //                   "An exclusive 50-unit residential development combining contemporary architecture with premium amenities, rooftop gardens, and panoramic city views.",
+  //                 details: ["50 luxury units", "Rooftop amenities", "Underground parking", "24/7 concierge"],
+  //                 year: "2023",
+  //                 location: "Riverside Heights",
+  //               },
+  //               // {
+  //               //   title: "Advanced Manufacturing Facility",
+  //               //   category: "Industrial",
+  //               //   description:
+  //               //     "State-of-the-art production facility with automated systems, clean room environments, and sustainable energy solutions for next-generation manufacturing.",
+  //               //   details: ["500,000 sq ft", "Automated systems", "Clean rooms", "Solar powered"],
+  //               //   year: "2024",
+  //               //   location: "Industrial Park",
+  //               // },
+  //               // {
+  //               //   title: "Mixed-Use Urban Development",
+  //               //   category: "Commercial",
+  //               //   description:
+  //               //     "A transformative urban project combining retail, office, and residential spaces with public plazas, green corridors, and community facilities.",
+  //               //   details: ["Mixed-use design", "Public spaces", "Green corridors", "Community hub"],
+  //               //   year: "2023",
+  //               //   location: "City Center",
+  //               // },
+  //             ]
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
   const [hoveredService, setHoveredService] = useState(null)
   const [visibleProjects, setVisibleProjects] = useState(new Set())
+const dispatch = useDispatch()
+  const { company,loading } = useSelector((state) => state.data)
 
+
+  useEffect(() => {
+
+    dispatch(getCompany())
+  }, [dispatch])
+
+  const projects = company?.projects || [];
+   
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY)
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  useEffect(() => {
+ useEffect(() => {
+    if (projects.length === 0) return // Don't run if there are no projects
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const projectIndex = Number.parseInt(entry.target.getAttribute("data-project-index"))
-            setVisibleProjects((prev) => new Set([...prev, projectIndex]))
+            const projectIndex = Number(entry.target.getAttribute("data-project-index"))
+            setVisibleProjects((prev) => new Set(prev).add(projectIndex))
           }
         })
       },
-      { threshold: 0.2 },
+      { threshold: 0.2 }, // Triggers when 20% of the element is visible
     )
 
     const projectElements = document.querySelectorAll("[data-project-index]")
     projectElements.forEach((el) => observer.observe(el))
 
-    return () => observer.disconnect()
-  }, [])
+    // Cleanup function to disconnect the observer
+    return () => projectElements.forEach((el) => observer.unobserve(el))
+  }, [projects])
 
   return (
     <div className="">
@@ -338,6 +353,7 @@ export default function Home() {
 
       
         {/* Projects Gallery Section with Scroll Animations */}
+       {projects && projects.length > 0 && (
         <section id="work" className="py-32 px-6 relative overflow-hidden bg-muted/20">
           {/* Animated Background Elements */}
           <div className="absolute inset-0 opacity-5">
@@ -345,10 +361,6 @@ export default function Home() {
             <div
               className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-primary/60 rounded-full animate-float"
               style={{ animationDelay: "3s" }}
-            ></div>
-            <div
-              className="absolute top-3/4 left-3/4 w-32 h-32 bg-primary/40 rounded-full animate-float"
-              style={{ animationDelay: "1.5s" }}
             ></div>
           </div>
 
@@ -358,147 +370,112 @@ export default function Home() {
                 Featured <span className="text-primary">Projects</span>
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                Discover our portfolio of exceptional construction projects that showcase our commitment to quality,
-                innovation, and architectural excellence.
+                Discover our portfolio of exceptional construction projects that showcase our commitment to quality and
+                innovation.
               </p>
             </div>
 
             {/* Projects Grid */}
             <div className="space-y-32">
-              {projects.map((project, index) => (
-                <div
-                  key={index}
-                  data-project-index={index}
-                  className={`grid grid-cols-1 lg:grid-cols-2 gap-16 items-center ${
-                    index % 2 === 1 ? "lg:grid-flow-col-dense" : ""
-                  }`}
-                >
-                  {/* Project Image */}
-                  <div className={`relative group ${index % 2 === 1 ? "lg:col-start-2" : ""}`}>
-                    <div
-                      className={`transform transition-all duration-1000 ${
-                        visibleProjects.has(index)
-                          ? "translate-x-0 opacity-100"
-                          : index % 2 === 0
-                            ? "-translate-x-20 opacity-0"
-                            : "translate-x-20 opacity-0"
-                      }`}
-                    >
-                      <div className="relative  rounded-3xl overflow-hidden  group-hover:shadow-3xl transition-all duration-500">
-                        {/* Project Image Placeholder */}
-                        <div className="from-primary/20 to-muted relative overflow-hidden">
-                          <Image
-                            src={project.image}
-                            alt={project.title}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                          />
+              {projects?.map((project, index) => {
+                const projectYear = new Date(project.createdAt).getFullYear()
 
-                          {/* Overlay with project category */}
-                          <div className="absolute top-6 left-6">
-                            <span className="bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-semibold">
-                              {project.category}
+                return (
+                  <div
+                    key={project.id}
+                    data-project-index={index}
+                    className={`grid grid-cols-1 lg:grid-cols-2 gap-16 items-center ${
+                      index % 2 === 1 ? "lg:grid-flow-col-dense" : ""
+                    }`}
+                  >
+                    {/* Project Image */}
+                    <div className={`relative group ${index % 2 === 1 ? "lg:col-start-2" : ""}`}>
+                      <div
+                        className={`transform transition-all duration-1000 ${
+                          visibleProjects.has(index)
+                            ? "translate-x-0 opacity-100"
+                            : index % 2 === 0
+                            ? "-translate-x-20 opacity-0" // --- FIX: Changed opacity to 0 for the initial hidden state ---
+                            : "translate-x-20 opacity-0" // --- FIX: Changed opacity to 0 for the initial hidden state ---
+                        }`}
+                      >
+                        <Link href={`/portfolio/${project.id}`}>
+                          <div className="relative rounded-3xl overflow-hidden group-hover:shadow-3xl transition-all duration-500">
+                            <div className="from-primary/20 to-muted relative overflow-hidden">
+                              <Image
+                                src={`/uploads/${project.projectImage[0]}`} // UPDATED: Using projectImage from API
+                                alt={project.title}
+                                width={800}
+                                height={600}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 aspect-[4/3]"
+                              />
+                              <div className="absolute top-6 left-6">
+                                <span className="bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-semibold">
+                                  {project.category}
+                                </span>
+                              </div>
+                              <div className="absolute top-6 right-6">
+                                <span className="bg-card/90 backdrop-blur-sm text-foreground font-uni px-4 py-2 rounded-full text-sm font-extrabold">
+                                  {projectYear} {/* UPDATED: Using derived year */}
+                                </span>
+                              </div>
+                              <div className="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                                <Button className="bg-card text-foreground hover:bg-card/90 rounded-full px-8 py-3 font-semibold shadow-lg">
+                                  View Details
+                                </Button>
+                              </div>
+                            </div>
+                            <div className="absolute inset-0 rounded-3xl border-2 border-primary/20 group-hover:border-primary/60 transition-colors duration-500 pointer-events-none"></div>
+                          </div>
+                        </Link>
+                      </div>
+                    </div>
+
+                    {/* Project Content */}
+                    <div className={`space-y-6 ${index % 2 === 1 ? "lg:col-start-1 lg:row-start-1" : ""}`}>
+                      <div
+                        className={`transform transition-all duration-1000 delay-300 ${
+                          visibleProjects.has(index)
+                            ? "translate-y-0 opacity-100"
+                            : "translate-y-10 opacity-0" // --- FIX: Changed opacity to 0 for the initial hidden state ---
+                        }`}
+                      >
+                        <div className="mb-6">
+                          <div className="flex items-center gap-4 mb-4">
+                            <div className="w-12 h-1 bg-primary rounded-full"></div>
+                            <span className="text-primary font-semibold text-sm uppercase tracking-wider">
+                              {project.location || "Location TBD"} {/* UPDATED: Fallback for location */}
                             </span>
                           </div>
-
-                          {/* Year badge */}
-                          <div className="absolute top-6 right-6">
-                            <span className="bg-card/90 backdrop-blur-sm text-foreground font-uni px-4 py-2 rounded-full text-sm font-extrabold">
-                              {project.year}
-                            </span>
-                          </div>
-
-                          {/* Hover overlay */}
-                          <div className="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-                            <Button className="bg-card text-foreground hover:bg-card/90 rounded-full px-8 py-3 font-semibold shadow-lg">
-                              View Details
-                            </Button>
-                          </div>
+                          <h3 className="text-3xl md:text-4xl font-light text-foreground mb-4 leading-tight">
+                            {project.title}
+                          </h3>
+                          <p className="text-lg text-muted-foreground leading-relaxed">
+                            {project.aboutProject} {/* UPDATED: Using aboutProject */}
+                          </p>
                         </div>
-
-                        {/* 3D Border Effect */}
-                        <div className="absolute inset-0 rounded-3xl border-2 border-primary/20 group-hover:border-primary/60 transition-colors duration-500"></div>
+                        <div className="grid grid-cols-2 gap-4 mb-8">
+                          {project.keyFeatures?.slice(0, 4).map((feature, detailIndex) => (
+                            <div key={detailIndex} className="flex items-center space-x-3">
+                              <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
+                              <span className="text-sm text-muted-foreground">{feature}</span>
+                            </div>
+                          ))}
+                        </div>
+                        <Link href={`/portfolio/${project.id}`}>
+                          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
+                            View Project
+                          </Button>
+                        </Link>
                       </div>
                     </div>
                   </div>
-
-                  {/* Project Content */}
-                  <div className={`space-y-6 ${index % 2 === 1 ? "lg:col-start-1 lg:row-start-1" : ""}`}>
-                    <div
-                      className={`transform transition-all duration-1000 delay-300 ${
-                        visibleProjects.has(index) ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-                      }`}
-                    >
-                      {/* Project Header */}
-                      <div className="mb-6">
-                        <div className="flex items-center gap-4 mb-4">
-                          <div className="w-12 h-1 bg-primary rounded-full"></div>
-                          <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-                            {project.location}
-                          </span>
-                        </div>
-                        <h3 className="text-3xl md:text-4xl font-light text-foreground mb-4 leading-tight">
-                          {project.title}
-                        </h3>
-                        <p className="text-lg text-muted-foreground leading-relaxed">{project.description}</p>
-                      </div>
-
-                      {/* Project Details */}
-                      <div className="grid grid-cols-2 gap-4 mb-8">
-                        {project.details.map((detail, detailIndex) => (
-                          <div key={detailIndex} className="flex items-center space-x-3">
-                            <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
-                            <span className="text-sm text-muted-foreground">{detail}</span>
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Action Buttons */}
-                         <Link href={`/portfolio/${project.id}`}>
-                  
-                        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
-                          View Project
-                        </Button>
-                     
-                
-                         </Link>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Call to Action */}
-            <div className="text-center mt-20">
-              <div className="bg-card rounded-3xl p-12  border border-border relative overflow-hidden">
-                {/* Background Pattern */}
-                <div className="absolute inset-0 opacity-5">
-                  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary to-transparent"></div>
-                </div>
-
-                <div className="relative z-10">
-                  <h3 className="text-3xl md:text-4xl font-light text-foreground mb-6">
-                    Ready to Start Your <span className="text-primary">Next Project?</span>
-                  </h3>
-                  <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                    Let's discuss how we can bring your vision to life with our expertise in construction and design
-                    excellence.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
-                      Start Your Project
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 bg-transparent"
-                    >
-                      View All Projects
-                    </Button>
-                  </div>
-                </div>
-              </div>
+                )
+              })}
             </div>
           </div>
         </section>
+      )}
 
 
 

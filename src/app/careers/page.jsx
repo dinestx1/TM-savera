@@ -248,7 +248,7 @@ export default function CareersPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
             {benefits.map((benefit, index) => (
-              <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-0 text-center">
+              <Card key={index} className="group hover:shadow-xl py-4 transition-all duration-300 border-0 text-center">
                 <CardContent className="p-8">
                   <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
                     <benefit.icon className="w-8 h-8 text-primary group-hover:text-white" />
@@ -293,7 +293,7 @@ export default function CareersPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
             {jobOpenings.map((job) => (
-              <Card key={job.id} className="group hover:shadow-xl transition-all duration-300 border-0 cursor-pointer">
+              <Card key={job.id} className="group hover:shadow-xl py-4 transition-all duration-300 border-0 cursor-pointer">
                 <CardHeader className="pb-4">
                   <div className="flex justify-between items-start mb-4">
                     <Badge variant="secondary" className="bg-primary/10 text-primary">{job.department}</Badge>
