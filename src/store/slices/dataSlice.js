@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 
-// const API_URL = "https://api.ixbooking.in/api/v0.1/user/";
-const API_URL = "http://localhost:8000/";
+const API_URL = "https://tm-savera-3uqh.vercel.app/";
+// const API_URL = "http://localhost:8000/";
 
 
 
