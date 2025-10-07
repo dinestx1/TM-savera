@@ -22,30 +22,30 @@ function Footer() {
             <div>
               <h4 className="font-bold mb-6 text-lg">Services</h4>
               <ul className="space-y-3 text-gray-400">
-                <li className="hover:text-primary cursor-pointer transition-colors">Commercial Construction</li>
-                <li className="hover:text-primary cursor-pointer transition-colors">Residential Building</li>
-                <li className="hover:text-primary cursor-pointer transition-colors">Project Management</li>
-                <li className="hover:text-primary cursor-pointer transition-colors">Consulting</li>
+                <li className="hover:text-primary cursor-pointer transition-colors"><Link href="/services">Commercial Construction</Link></li>
+                <li className="hover:text-primary cursor-pointer transition-colors"><Link href="/services">Residential Building</Link></li>
+                <li className="hover:text-primary cursor-pointer transition-colors"><Link href="/services">Project Management</Link></li>
+                <li className="hover:text-primary cursor-pointer transition-colors"><Link href="/services">Consulting</Link></li>
               </ul>
             </div>
 
             <div>
               <h4 className="font-bold mb-6 text-lg">Company</h4>
               <ul className="space-y-3 text-gray-400">
-                <li className="hover:text-primary cursor-pointer transition-colors">About Us</li>
-                <li className="hover:text-primary cursor-pointer transition-colors">Our Team</li>
-                <li className="hover:text-primary cursor-pointer transition-colors">Careers</li>
-                <li className="hover:text-primary cursor-pointer transition-colors">News</li>
+                <li className="hover:text-primary cursor-pointer transition-colors"><Link href="/about">About Us</Link></li>
+                <li className="hover:text-primary cursor-pointer transition-colors"><Link href="/gallery" >Gallery</Link></li>
+                <li className="hover:text-primary cursor-pointer transition-colors"><Link href="/career">Careers</Link></li>
+                <li className="hover:text-primary cursor-pointer transition-colors"><Link href="/portfolio">Portfolio</Link></li>
               </ul>
             </div>
 
             <div>
               <h4 className="font-bold mb-6 text-lg">Contact</h4>
               <ul className="space-y-3 text-gray-400">
-                <li>+1 (555) 123-4567</li>
-                <li>info@buildcorp.com</li>
-                <li>123 Construction Ave</li>
-                <li>Builder City, BC 12345</li>
+                <li>+91 7870429977</li>
+                <li>tmsaverabuild@gmail.com</li>
+                <li>302 SN MEHRA PALACE, NEAR ROTI RESTURENT</li>
+                <li> BORING ROAD PATNA, 800013</li>
               </ul>
             </div>
           </div>

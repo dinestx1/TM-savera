@@ -242,14 +242,14 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Form & Map Section */}
-      <section className="py-32 px-6 bg-gray-50">
+      <section id="quote" className="py-32 px-6 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Contact Form */}
             <div>
               <div className="mb-10">
                 <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                  Send Us a <span className="text-primary">Message</span>
+                  Send Us a <span className="text-primary">Message or Quote</span>
                 </h2>
                 <p className="text-lg text-gray-600">
                   Fill out the form below and we'll get back to you within 24 hours with a detailed response 
@@ -270,7 +270,7 @@ export default function ContactPage() {
                       onChange={(e) => handleInputChange("name", e.target.value)}
                       placeholder="Enter your full name"
                       required
-                      className="rounded-full"
+                      className="rounded-full bg-accent-foreground"
                     />
                   </div>
                   <div className="space-y-2">
@@ -285,7 +285,7 @@ export default function ContactPage() {
                       onChange={(e) => handleInputChange("email", e.target.value)}
                       placeholder="Enter your email"
                       required
-                      className="rounded-full"
+                      className="rounded-full bg-accent-foreground"
                     />
                   </div>
                 </div>
@@ -301,7 +301,7 @@ export default function ContactPage() {
                       value={formData.phone}
                       onChange={(e) => handleInputChange("phone", e.target.value)}
                       placeholder="Enter your phone number"
-                      className="rounded-full"
+                      className="rounded-full bg-accent-foreground"
                     />
                   </div>
                   <div className="space-y-2">
@@ -314,7 +314,7 @@ export default function ContactPage() {
                       value={formData.company}
                       onChange={(e) => handleInputChange("company", e.target.value)}
                       placeholder="Enter company name (optional)"
-                      className="rounded-full"
+                      className="rounded-full bg-accent-foreground"
                     />
                   </div>
                 </div>
@@ -323,7 +323,7 @@ export default function ContactPage() {
                   <div className="space-y-2">
                     <Label htmlFor="service">Service Needed *</Label>
                     <Select onValueChange={(value) => handleInputChange("service", value)}>
-                      <SelectTrigger className="rounded-full">
+                      <SelectTrigger className="rounded-full bg-accent-foreground">
                         <SelectValue placeholder="Select a service" />
                       </SelectTrigger>
                       <SelectContent>
@@ -338,15 +338,15 @@ export default function ContactPage() {
                   <div className="space-y-2">
                     <Label htmlFor="budget">Project Budget</Label>
                     <Select onValueChange={(value) => handleInputChange("budget", value)}>
-                      <SelectTrigger className="rounded-full">
+                      <SelectTrigger className="rounded-full bg-accent-foreground">
                         <SelectValue placeholder="Select budget range" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="<50k">Under $50,000</SelectItem>
-                        <SelectItem value="50k-100k">$50,000 - $100,000</SelectItem>
-                        <SelectItem value="100k-500k">$100,000 - $500,000</SelectItem>
-                        <SelectItem value="500k-1m">$500,000 - $1M</SelectItem>
-                        <SelectItem value="1m+">$1M+</SelectItem>
+                        <SelectItem value="<50k">Under ₹50,000</SelectItem>
+                        <SelectItem value="50k-100k">₹50,000 - ₹100,000</SelectItem>
+                        <SelectItem value="100k-500k">₹100,000 - ₹500,000</SelectItem>
+                        <SelectItem value="500k-1m">₹500,000 - ₹5L</SelectItem>
+                        <SelectItem value="1m+">₹10l+</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -355,7 +355,7 @@ export default function ContactPage() {
                 <div className="space-y-2">
                   <Label htmlFor="timeline">Project Timeline</Label>
                   <Select onValueChange={(value) => handleInputChange("timeline", value)}>
-                    <SelectTrigger className="rounded-full">
+                    <SelectTrigger className="rounded-full bg-accent-foreground">
                       <SelectValue placeholder="When do you want to start?" />
                     </SelectTrigger>
                     <SelectContent>
@@ -376,7 +376,7 @@ export default function ContactPage() {
                     placeholder="Tell us about your project, specific requirements, timeline, and any other important details..."
                     rows={5}
                     required
-                    className="rounded-2xl"
+                    className="rounded-2xl bg-accent-foreground"
                   />
                 </div>
 

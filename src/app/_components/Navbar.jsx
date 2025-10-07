@@ -119,7 +119,7 @@ export default function Navbar() {
               <motion.span
                 layoutId="desktop-active-link-pill"
                 className="absolute inset-0 bg-primary rounded-full z-0"
-                transition={{ type: "spring", stiffness: 200, damping: 25 }}
+            
               />
             ) : null}
             <span className="relative z-10">{link.label}</span>

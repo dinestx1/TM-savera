@@ -2,7 +2,8 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowRight, CheckCircle, Phone, Mail } from "lucide-react"
+import { ArrowRight, CheckCircle, Phone, Mail,IndianRupee } from "lucide-react"
+import Link from "next/link";
 
 const ResidentialIcon = ({ className }) => (
   <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -36,7 +37,7 @@ const services = [
       "Smart Home Integration"
     ],
     image: "https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
-    startingPrice: "Starting from $150/sq ft"
+    startingPrice: "Starting from ₹1499/sq ft"
   },
   {
     title: "Commercial Projects",
@@ -179,13 +180,17 @@ export default function ServicesPage() {
 
                   {/* CTA Buttons */}
                   <div className="flex flex-col sm:flex-row gap-4 pt-8">
+                  <Link href="/contact#quote">
                     <Button className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-full">
                       Get Quote
                       <ArrowRight className="ml-2 w-4 h-4" />
                     </Button>
+                    </Link>
+                    <Link href="/portfolio">
                     <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-full">
                       View Projects
                     </Button>
+                    </Link>
                   </div>
                 </div>
               </div>

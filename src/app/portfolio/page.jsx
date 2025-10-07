@@ -183,12 +183,12 @@ export default function ProjectsPage() {
   return (
    <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="py-20 px-6 bg-gradient-to-br from-background to-muted/20 relative overflow-hidden">
+      <section className="relative py-32 px-6 bg-gradient-to-br from-bgdark via-gray-800 to-bgdark overflow-hidden">
         <div className="max-w-7xl mx-auto text-center relative z-10">
-          <h1 className="text-5xl md:text-7xl font-light text-foreground mb-6">
+          <h1 className="text-5xl md:text-7xl font-bold text-background mb-6">
             Our <span className="text-primary">Projects</span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-muted-background max-w-3xl mx-auto leading-relaxed">
             Explore our portfolio of construction projects across residential, commercial, and industrial categories.
           </p>
         </div>

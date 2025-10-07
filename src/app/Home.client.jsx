@@ -239,10 +239,6 @@ const dispatch = useDispatch()
                         ))}
                       </ul>
 
-                      {/* CTA Button */}
-                      <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-full py-3 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform  mt-auto">
-                        Learn More
-                      </Button>
                     </div>
 
                     {/* Hover Effect Border */}
@@ -296,19 +292,23 @@ const dispatch = useDispatch()
           <div className="max-w-md w-full">
             {/* The heading uses a serif font for a classic, professional feel. */}
             <h1 className="text-5xl lg:text-6xl  font-bold text-gray-800 tracking-wide">
-              Transforming the
+              Transforming the blueprints
             </h1>
             <p className="mt-6 text-gray-600 leading-relaxed">
               At the forefront of the construction industry, we are dedicated to creating awe-inspiring structures that redefine the boundaries of architectural excellence.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
+               <Link href="/portfolio">
               <button className="bg-primary text-white px-7 py-3 rounded-full font-semibold text-sm hover:bg-gray-800 transition-colors duration-300 flex items-center">
                 Discover Our Portfolio
                 <ArrowRightIcon />
               </button>
+              </Link>
+              <Link href="/contact">
               <button className="bg-transparent text-gray-800 px-7 py-3 rounded-full font-semibold text-sm border border-gray-300 hover:bg-gray-100 transition-colors duration-300">
                 Contact Us
               </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -325,13 +325,17 @@ const dispatch = useDispatch()
               As a leading construction company, we are committed to pushing the boundaries of what's possible. Our team of seasoned professionals combines a deep understanding of structural integrity with creative vision.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
-              <button className="bg-primary text-white px-7 py-3 rounded-full font-semibold text-sm hover:bg-yellow-300 transition-colors duration-300 flex items-center">
+             <Link href="/portfolio">
+              <button className="bg-primary text-white px-7 py-3 rounded-full font-semibold text-sm hover:bg-black transition-colors duration-300 flex items-center">
                 Explore Our Work
                 <ArrowRightIcon />
               </button>
+</Link>
+                <Link href="/contact">
               <button className="bg-transparent text-white px-7 py-3 rounded-full font-semibold text-sm border border-gray-700 hover:bg-gray-900 transition-colors duration-300">
                 Contact Us
               </button>
+              </Link>
             </div>
           </div>
         </div>
