@@ -7,6 +7,7 @@ import Image from 'next/image';
 import hero from "@/assets/hero.jpg"
 import hero1 from "@/assets/hero1.jpg"
 import hero2 from "@/assets/hero-construction.jpg"
+import Link from 'next/link';
 // --- Carousel Slide Data ---
 // Add your images and text here
 const slides = [
@@ -100,12 +101,15 @@ const HeroSection = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/contact">
               <Button 
                 size="lg" 
                 className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 text-lg font-semibold shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all duration-300"
               >
                 Start Your Project
               </Button>
+              </Link>
+              <Link href="/portfolio">
               <Button 
                 size="lg" 
                 variant="outline" 
@@ -113,6 +117,7 @@ const HeroSection = () => {
               >
                 View Portfolio
               </Button>
+              </Link>
             </div>
           </motion.div>
         </AnimatePresence>
